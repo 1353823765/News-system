@@ -21,7 +21,11 @@ export default function SideMenu() {
         <Menu.Item icon={<VideoCameraOutlined />} key="3">
           nav3
         </Menu.Item>
-       
+         <SubMenu title="用户管理"> 
+         <Menu.Item  key="6">option1</Menu.Item>
+         <Menu.Item key="7">option2</Menu.Item>
+         <Menu.Item  key="8">option3</Menu.Item>
+         </SubMenu>
       </Menu>
     </Sider>
   );
