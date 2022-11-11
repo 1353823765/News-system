@@ -25,6 +25,7 @@ export default function SideMenu() {
          <Menu.Item  key="6">option1</Menu.Item>
          <Menu.Item key="7">option2</Menu.Item>
          <Menu.Item  key="8">option3</Menu.Item>
+         
          </SubMenu>
       </Menu>
     </Sider>
