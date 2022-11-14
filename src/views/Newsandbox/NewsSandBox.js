@@ -12,7 +12,6 @@ import NotPremission from "../Newsandbox/notpremission/NotPremission";
 import "./NewsSandBox.css"
 const { Content } = Layout;
 export default function Newsandbox() {
-
   return (
     <Layout>
       <SideMenu ></SideMenu>
@@ -25,6 +24,7 @@ export default function Newsandbox() {
           margin: "24px 16px",
           padding: 24,
           minHeight: 280,
+          overflow:"auto"
         }}
       >
         <Switch>
