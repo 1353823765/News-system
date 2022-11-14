@@ -10,13 +10,13 @@ export default function RightList() {
       console.log(res.data);
       //由于数组的第一项中的children这个字段为空但是他也会显示
       //我们先将这一项设置为空
-       const list = res.data;
+      const list = res.data;
       // list[0].children = undefined;
-       list.forEach(item=>{
-        if(item.children.length===0){
-          item.children=undefined
+      list.forEach((item) => {
+        if (item.children.length === 0) {
+          item.children = undefined;
         }
-       })
+      });
       setdataSource(list);
     });
   }, []);
