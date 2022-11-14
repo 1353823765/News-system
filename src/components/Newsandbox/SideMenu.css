@@ -5,3 +5,14 @@
     background-color: rgba(0,0,0,.85);
   }
    */
+   .left-div{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+
+   }
+   .div-menu{
+    flex: 1;
+    overflow: auto;
+    
+   }
