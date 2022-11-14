@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "antd";
+
 import axios from "axios";
-import { SyncOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Tag, Button } from "antd";
+import { SyncOutlined, DeleteOutlined, EditOutlined,ExclamationCircleOutlined  } from "@ant-design/icons";
+import { Tag, Button  , Table, Modal } from "antd";
+import Item from "antd/lib/list/Item";
 export default function RightList() {
   const [dataSource, setdataSource] = useState([]);
   useEffect(() => {
@@ -45,10 +46,11 @@ export default function RightList() {
     },
     {
       title: "操作",
-      render: () => {
+      render: (item) => {
         return (
           <div>
-            <Button type="primary" shape="circle" danger ghost>
+           {/* console.log(item) */}
+            <Button type="primary" shape="circle" danger ghost onClick={()=>{confirmMethod(item)}}>
               <DeleteOutlined />
             </Button>
             <Button type="primary" shape="circle">
@@ -59,6 +61,29 @@ export default function RightList() {
       },
     },
   ];
+//删除对话框
+const showPromiseConfirm = () => {
+  confirm({
+    title: 'Do you want to delete these items?',
+    icon: <ExclamationCircleOutlined />,
+    content: 'When clicked the OK button, this dialog will be closed after 1 second',
+    onOk() {
+      return new Promise((resolve, reject) => {
+        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+      }).catch(() => console.log('Oops errors!'));
+    },
+    onCancel() {},
+  });
+};
+const { confirm } = Modal
+ const confirmMethod=(item)=>{
+  showPromiseConfirm()
+  console.log(item)
+  delMethod(item)
+  }
+  const delMethod=(item)=>{
+      setdataSource(dataSource.filter((data)=>data.id!==item.id))
+  }
   return (
     <div>
       <Table
