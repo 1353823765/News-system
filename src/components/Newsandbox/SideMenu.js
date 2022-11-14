@@ -1,5 +1,7 @@
 import React, { useState,useEffect } from "react";
-import {withRouter} from "react-router-dom"
+import {withRouter} from "react-router-dom";
+
+
 import "./SideMenu.css";
 import {
   UserOutlined,
@@ -66,6 +68,7 @@ const { SubMenu } = Menu;
     axios("http://localhost:5000/rights?_embed=children").then(res=>{
       // console.log(res.data),
   setmenulist(res.data)
+  
   })
  },[])
  //解决图标显示问题用一个数据来表示图标显示的样子
@@ -88,14 +91,21 @@ const iconList={
  const  verdictpagepermisson=(item)=>{
   return item.pagepermisson
  }
-  const renderMenu=(menulist)=>{
+ const [collapsed, setCollapsed] = useState(false);
+ //左侧边栏高亮显示用路径代表唯一
+ const SelectedKeys=props.location.pathname
+ //  
+ 
+ const OpenKeys=`/${SelectedKeys.split("/")[1]}`
+ const renderMenu=(menulist)=>{
     return menulist.map(item=>{
          if(item.children?.length>0&&verdictpagepermisson(item)){
        return  <SubMenu key={item.key} icon={iconList[item.key]}  title={item.title}>
          {renderMenu(item.children)}
           </SubMenu>
          }
-         return  verdictpagepermisson(item)&& <Menu.Item  key={item.key} icon={iconList[item.key]} 
+         return verdictpagepermisson(item)&& 
+         <Menu.Item  key={item.key} icon={iconList[item.key]} 
           onClick={()=>{
             //通过item.key进行跳转 因为我们顶一个key值就是我们跳转的路径
             props.history.push(item.key)
@@ -103,11 +113,14 @@ const iconList={
           >{item.title}</Menu.Item>
      })
    }
-  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
+    <div className="left-div">
       <div className="logo">全球新闻发布系统</div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+      <div className="div-menu">
+      <Menu theme="dark" mode="inline" selectedKeys={[SelectedKeys]} 
+      defaultOpenKeys={[OpenKeys]}>
         {/*  <Menu.Item icon={<UserOutlined />} key="1">
         nav1
         </Menu.Item>
@@ -121,10 +134,11 @@ const iconList={
          <Menu.Item  key="6">option1</Menu.Item>
          <Menu.Item key="7">option2</Menu.Item>
          <Menu.Item  key="8">option3</Menu.Item>
-         
          </SubMenu> */}
         {renderMenu(menulist)}
       </Menu>
+      </div>
+      </div>
     </Sider>
   );
 }
