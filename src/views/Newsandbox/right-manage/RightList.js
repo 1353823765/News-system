@@ -140,6 +140,7 @@ export default function RightList() {
     showPromiseConfirm(item);
     // console.log(item)
   };
+  
   const delMethod = (item) => {
     console.log(item);
     if (item.grade === 1) {
@@ -159,6 +160,7 @@ export default function RightList() {
         dataSource={dataSource}
         columns={columns}
         pagination={{ pageSize: 5 }}
+        
       />
     </div>
   );
