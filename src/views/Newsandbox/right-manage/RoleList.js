@@ -10,6 +10,7 @@ export default function RoleList() {
   const [dataSource, setdataSource] = useState([]);
   const [treeData, settreeData] = useState([]);
   const [listSource, setlistSource] = useState([]);
+  const [currentId,setcurrentId]=useState(0)
   useEffect(() => {
     axios.get("  http://localhost:5000/roles").then((res) => {
       console.log(res.data);
@@ -61,8 +62,10 @@ export default function RoleList() {
               disabled={false}
               onClick={() => {
                 showModal();
-                console.log(item);
+                console.log(item)
                 setlistSource(item.rights);
+                // console.log(item.rights);
+                setcurrentId(item.id)
               }}
             >
               <AppstoreAddOutlined />
@@ -101,13 +104,32 @@ export default function RoleList() {
   };
   const handleOk = () => {
     setIsModalOpen(false);
+    // console.log("dataSource",dataSource)
+    // console.log("currentId",currentId)
+    console.log("listSource",listSource)
+    setdataSource( dataSource.map(item=>{
+      if(item.id===currentId){
+        return {
+          ...item,
+         rights:listSource
+        }
+      }return item
+    }) 
+    
+)
+   console.log(dataSource)
+  axios.patch(`http://localhost:5000/roles/${currentId}`,
+  {
+    rights:listSource
+  }
+  ) 
+
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
   const onCheck = (checkedKeys) => {
-    setlistSource(checkedKeys.checked);
-      
+    setlistSource(checkedKeys.checked);     
   };
   return (
     <div>
