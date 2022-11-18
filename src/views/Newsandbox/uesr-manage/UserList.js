@@ -42,7 +42,7 @@ export default function RightList() {
     {
       title: "用户状态",
       dataIndex: "roleState",
-      render: (roleState, item) => {
+      render: (roleState,item) => {
         // console.log(item);
         return (
           <Switch
@@ -161,7 +161,8 @@ export default function RightList() {
       <Button
         type="primary"
         onClick={() => {
-          setopenMoadl(true);
+          setopenMoadl(true)
+          
         }}
       >
         添加用户
@@ -172,7 +173,7 @@ export default function RightList() {
         pagination={{ pageSize: 5 }}
         //报警告Warning: Each child in a list should have a unique "key" prop.
         // 设置一个key值给Table组件通过rowKey
-        rowKey={(item) => item.id}
+        rowKey={(item)=>item.id}
       />
       <Modal
         open={openMoadl}
