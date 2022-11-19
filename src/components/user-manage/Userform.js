@@ -35,10 +35,10 @@ const Userform = forwardRef((props, ref) => {
         <Form.Item
           name="region"
           label="区域"
-          rules={[
+          rules={isdistable? []:[
             {
               required: true,
-              message:isdistable? "":"Please input the title of collection!",
+              message:"Please input the title of collection!",
             },
           ]}
         >

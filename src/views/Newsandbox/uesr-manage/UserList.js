@@ -66,6 +66,7 @@ export default function RightList() {
       dataIndex: "roleState",
       render: (roleState, item) => {
         // console.log(item);
+        console.log(roleState)
         return (
           <Switch
             checkedChildren="开启"
@@ -75,9 +76,9 @@ export default function RightList() {
             disabled={item.default}
 
             //通过onChange来实现控制checked的状态
-            // onChange={() => {
-            //   switchMethod(item);
-            // }}
+            onChange={() => {
+              switchMethod(item);
+            }}
           />
         );
       },
@@ -95,7 +96,7 @@ export default function RightList() {
               ghost
               disabled={item.default}
               onClick={() => {
-                confirmMethod();
+                confirmMethod(item);
               }}
             >
               <DeleteOutlined />
@@ -128,32 +129,7 @@ export default function RightList() {
       },
     },
   ];
-
-  //开关状态函数
-  // const setPage = (item) => {
-  //   if (item.pagepermisson === 1) {
-  //     return (item.pagepermisson = 0), setdataSource([...dataSource]);
-  //   }
-  //   return (item.pagepermisson = 1), setdataSource([...dataSource]);
-  // };
-  // const switchMethod = (item) => {
-  //   //第一个方法3目实现
-  //   // item.pagepermisson=item.pagepermisson===1?0:1
-  //   //setdataSource([...dataSource])
-  //   //第2种方写一个函数实现
-  //   setPage(item);
-  //   if (item.grade === 1) {
-  //     axios.patch(`http://localhost:5000/rights/${item.id}`, {
-  //       pagepermisson: item.pagepermisson,
-  //     });
-  //   } else {
-  //     axios.patch(`http://localhost:5000/rights/${item.id}`, {
-  //       pagepermisson: item.pagepermisson,
-  //     });
-  //   }
-  // };
-  //删除对话框
-
+  
   const showPromiseConfirm = (item) => {
     confirm({
       title: `确定删除?`,
@@ -162,22 +138,55 @@ export default function RightList() {
       onOk() {
         return new Promise((resolve) => {
           setTimeout(resolve(item), 5000);
-        }).then((res) => delMethod(res));
+        })
+          .then((res) => delMethod(res))
+          .catch((res) => console.log(res));
       },
-      onCancel() {},
+      onCancel(){},
     });
   };
-
   const { confirm } = Modal;
-  const confirmMethod = () => {
-    showPromiseConfirm();
-    // console.log(item)
+  const confirmMethod = (item) => {
+    showPromiseConfirm(item);
+    //  console.log(item)
   };
-
+  //输出数据同步给后端
   const delMethod = (item) => {
     // console.log(item);
+    setdataSource(dataSource.filter((data) => data.id !== item.id));
+    axios.delete(`http://localhost:5000/users/${item.id}`);
   };
-
+  //设置表单添加数据功能
+  const setaddForm = () => {
+    addForm.current.validateFields().then((value) => {
+      setopenMoadl(false);
+      //重置表单项中的数据
+      addForm.current.resetFields();
+      axios
+        .post(`http://localhost:5000/users`, {
+          ...value,
+          roleState: true,
+          default: false,
+        })
+        .then((res) => {
+          setdataSource([
+            ...dataSource,
+            {
+              ...res.data,
+              role: roleList.filter((item) => item.id === value.roleId)[0],
+            },
+          ]);
+        });
+    });
+  };
+  const switchMethod=(item)=>{
+    console.log(item.roleState)
+    item.roleState=!item.roleState
+    setdataSource([...dataSource])
+    axios.patch(`http://localhost:5000/users/${item.id}`,{
+      roleState:item.roleState
+    })
+  }
   return (
     <div>
       <Button
@@ -205,49 +214,7 @@ export default function RightList() {
           setopenMoadl(false);
         }}
         onOk={() => {
-          //   console.log(addForm.current.getFieldValue().password)
-          //   if(addForm.current.getFieldValue().username===undefined||
-          //   addForm.current.getFieldValue().password===undefined
-          // ){
-          //     setopenMoadl(true);
-          //   }else{
-          //     setopenMoadl(false);
-
-          //   }
-          addForm.current
-            .validateFields()
-            .then((value) => {
-              console.log("value", value);
-              setopenMoadl(false);
-              axios.post(`http://localhost:5000/users`, {
-                ...value,
-                roleState: true,
-                default: false,
-               
-              }).then(res=>console.log(res.data))
-            })
-            .catch((err) => {
-              console.log("err", err);
-              if (
-                err.values.username === undefined ||
-                err.values.password === undefined
-              ) {
-                setopenMoadl(true);
-              }
-              if (
-                (err.values.roleId === 1 || err.values.region === "") &&
-                err.values.username !== "" &&
-                err.values.password !== ""
-              ) {
-                setopenMoadl(false);
-                axios.post(`http://localhost:5000/users`, {
-                  ...err,
-                  roleState: true,
-                  default: false,
-                 
-                }).then(res=>console.log(res.data))
-              }
-            });
+          setaddForm();
         }}
       >
         <Userform
