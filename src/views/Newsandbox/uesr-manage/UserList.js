@@ -14,6 +14,8 @@ export default function RightList() {
   const [roleList, setroleList] = useState([]);
   const [regionsList, setregionsList] = useState([]);
   const addForm = useRef(null);
+  const { confirm } = Modal;
+  
   useEffect(() => {
     axios.get("http://localhost:5000/users?_expand=role").then((res) => {
       console.log(res.data);
@@ -145,40 +147,18 @@ export default function RightList() {
       onCancel(){},
     });
   };
-  const { confirm } = Modal;
+
   const confirmMethod = (item) => {
     showPromiseConfirm(item);
     //  console.log(item)
   };
-  //输出数据同步给后端
+  //删除数据同步给后端
   const delMethod = (item) => {
     // console.log(item);
     setdataSource(dataSource.filter((data) => data.id !== item.id));
     axios.delete(`http://localhost:5000/users/${item.id}`);
   };
-  //设置表单添加数据功能
-  const setaddForm = () => {
-    addForm.current.validateFields().then((value) => {
-      setopenMoadl(false);
-      //重置表单项中的数据
-      addForm.current.resetFields();
-      axios
-        .post(`http://localhost:5000/users`, {
-          ...value,
-          roleState: true,
-          default: false,
-        })
-        .then((res) => {
-          setdataSource([
-            ...dataSource,
-            {
-              ...res.data,
-              role: roleList.filter((item) => item.id === value.roleId)[0],
-            },
-          ]);
-        });
-    });
-  };
+  //用户状态控制
   const switchMethod=(item)=>{
     console.log(item.roleState)
     item.roleState=!item.roleState
@@ -187,6 +167,30 @@ export default function RightList() {
       roleState:item.roleState
     })
   }
+    //设置表单添加数据功能
+const setaddForm = () => {
+  addForm.current.validateFields().then((value) => {
+    setopenMoadl(false);
+    //重置表单项中的数据
+    addForm.current.resetFields();
+    axios
+      .post(`http://localhost:5000/users`, {
+        ...value,
+        roleState: true,
+        default: false,
+      })
+      .then((res) => {
+        setdataSource([
+          ...dataSource,
+          {
+            ...res.data,
+            role: roleList.filter((item) => item.id === value.roleId)[0],
+          },
+        ]);
+      });
+  });
+};
+
   return (
     <div>
       <Button
