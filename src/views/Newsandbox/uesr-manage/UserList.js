@@ -1,16 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Userform from "../../../components/user-manage/Userform";
 import axios from "axios";
-import {SyncOutlined, DeleteOutlined,  EditOutlined,  WarningOutlined,} from "@ant-design/icons";
-import {Tag, Button,Table,  Modal,Popover,Switch,} from "antd";  
+import {
+  SyncOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  WarningOutlined,
+} from "@ant-design/icons";
+import { Tag, Button, Table, Modal, Popover, Switch } from "antd";
 export default function RightList() {
   const [dataSource, setdataSource] = useState([]);
   const [openMoadl, setopenMoadl] = useState(false);
+  const [roleList, setroleList] = useState([]);
+  const [regionsList, setregionsList] = useState([]);
+  const addForm = useRef(null);
   useEffect(() => {
     axios.get("http://localhost:5000/users?_expand=role").then((res) => {
       console.log(res.data);
       const list = res.data;
       setdataSource(list);
+    });
+  }, []);
+  useEffect(() => {
+    axios.get("http://localhost:5000/roles").then((res) => {
+      console.log(res.data);
+      const list = res.data;
+      setroleList(list);
+    });
+  }, []);
+  useEffect(() => {
+    axios.get("http://localhost:5000/regions").then((res) => {
+      console.log(res.data);
+      const list = res.data;
+      setregionsList(list);
     });
   }, []);
   const columns = [
@@ -42,7 +64,7 @@ export default function RightList() {
     {
       title: "用户状态",
       dataIndex: "roleState",
-      render: (roleState,item) => {
+      render: (roleState, item) => {
         // console.log(item);
         return (
           <Switch
@@ -161,8 +183,7 @@ export default function RightList() {
       <Button
         type="primary"
         onClick={() => {
-          setopenMoadl(true)
-          
+          setopenMoadl(true);
         }}
       >
         添加用户
@@ -173,7 +194,7 @@ export default function RightList() {
         pagination={{ pageSize: 5 }}
         //报警告Warning: Each child in a list should have a unique "key" prop.
         // 设置一个key值给Table组件通过rowKey
-        rowKey={(item)=>item.id}
+        rowKey={(item) => item.id}
       />
       <Modal
         open={openMoadl}
@@ -184,10 +205,56 @@ export default function RightList() {
           setopenMoadl(false);
         }}
         onOk={() => {
-          setopenMoadl(false);
+          //   console.log(addForm.current.getFieldValue().password)
+          //   if(addForm.current.getFieldValue().username===undefined||
+          //   addForm.current.getFieldValue().password===undefined
+          // ){
+          //     setopenMoadl(true);
+          //   }else{
+          //     setopenMoadl(false);
+
+          //   }
+          addForm.current
+            .validateFields()
+            .then((value) => {
+              console.log("value", value);
+              setopenMoadl(false);
+              axios.post(`http://localhost:5000/users`, {
+                ...value,
+                roleState: true,
+                default: false,
+               
+              }).then(res=>console.log(res.data))
+            })
+            .catch((err) => {
+              console.log("err", err);
+              if (
+                err.values.username === undefined ||
+                err.values.password === undefined
+              ) {
+                setopenMoadl(true);
+              }
+              if (
+                (err.values.roleId === 1 || err.values.region === "") &&
+                err.values.username !== "" &&
+                err.values.password !== ""
+              ) {
+                setopenMoadl(false);
+                axios.post(`http://localhost:5000/users`, {
+                  ...err,
+                  roleState: true,
+                  default: false,
+                 
+                }).then(res=>console.log(res.data))
+              }
+            });
         }}
       >
-      <Userform></Userform> 
+        <Userform
+          ref={addForm}
+          roleList={roleList}
+          regionsList={regionsList}
+        ></Userform>
       </Modal>
     </div>
   );

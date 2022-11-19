@@ -1,30 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { Form, Input, Select } from "antd";
-import axios from "axios";
-export default function Userform() {
+const Userform = forwardRef((props, ref) => {
+  const [isdistable, setsdistable] = useState(false);
   const { Option } = Select;
-  const [roleList, setroleList] = useState([]);
-  const [regionsList, setregionsList] = useState([]);
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-  useEffect(() => {
-    axios.get("http://localhost:5000/roles").then((res) => {
-      console.log(res.data);
-      const list = res.data;
-      setroleList(list);
-    });
-  }, []);
-  useEffect(() => {
-    axios.get("http://localhost:5000/regions").then((res) => {
-      console.log(res.data);
-      const list = res.data;
-      setregionsList(list);
-    });
-  }, []);
+  console.log(props);
+  console.log(ref);
   return (
     <div>
-      <Form layout="vertical">
+      <Form layout="vertical" ref={ref}>
         <Form.Item
           name="username"
           label="用户名"
@@ -35,7 +18,7 @@ export default function Userform() {
             },
           ]}
         >
-          <Input />
+          <Input/>
         </Form.Item>
         <Form.Item
           name="password"
@@ -50,21 +33,21 @@ export default function Userform() {
           <Input.Password />
         </Form.Item>
         <Form.Item
-          name="regio"
+          name="region"
           label="区域"
           rules={[
             {
               required: true,
-              message: "Please input the title of collection!",
+              message:isdistable? "":"Please input the title of collection!",
             },
           ]}
         >
           <Select
+            disabled={isdistable}
             style={{
               width: 472,
             }}
-            onChange={handleChange}
-            options={regionsList}
+            options={props.regionsList}
           />
         </Form.Item>
         <Form.Item
@@ -77,8 +60,22 @@ export default function Userform() {
             },
           ]}
         >
-          <Select style={{ width: 472 }} onChange={handleChange}>
-            {roleList.map((item) => (
+          <Select
+            style={{ width: 472 }}
+            onChange={(value) => {
+              if (value === 1) {
+                ref.current.setFieldsValue({
+                  region: "",
+                });
+
+                setsdistable(true);
+              } else {
+                setsdistable(false);
+              }
+              console.log(value);
+            }}
+          >
+            {props.roleList.map((item) => (
               <Option key={item.id} value={item.id}>
                 {item.roleName}
               </Option>
@@ -88,4 +85,5 @@ export default function Userform() {
       </Form>
     </div>
   );
-}
+});
+export default Userform;
