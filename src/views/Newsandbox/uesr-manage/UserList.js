@@ -13,7 +13,9 @@ export default function RightList() {
   const [openMoadl, setopenMoadl] = useState(false);
   const [roleList, setroleList] = useState([]);
   const [regionsList, setregionsList] = useState([]);
+  const [updataMoadl, setupdataMoadl] = useState(false);
   const addForm = useRef(null);
+  const updatedForm = useRef(null);
   const { confirm } = Modal;
   
   useEffect(() => {
@@ -103,35 +105,29 @@ export default function RightList() {
             >
               <DeleteOutlined />
             </Button>
-            <Popover
-              title="页面配置项"
-              content={
-                <div style={{ textAlign: "center" }}>
-                  <Switch
-                    checkedChildren="开启"
-                    unCheckedChildren="关闭"
-                    disabled={item.default}
-                    //checked设置后开关为受控组件通过改变状态来控制开关状态
-                    // checked={item.pagepermisson}
-                    //通过onChange来实现控制checked的状态
-                    // onChange={() => {
-                    //   switchMethod(item);
-                    // }}
-                  />
-                </div>
-              }
-              trigger={item.default ? "" : "click"}
-            >
-              <Button type="primary" shape="circle" disabled={item.default}>
+              <Button type="primary" shape="circle" disabled={item.default} 
+              onClick={()=>{
+                console.log(item)
+                updatahandle(item)
+              }}
+              >
                 <EditOutlined />
               </Button>
-            </Popover>
+          
           </div>
         );
       },
     },
   ];
+  const updatahandle=(item)=>{
+    console.log(item)
+    setTimeout(()=>{
+      setupdataMoadl(true)
+      updatedForm.current.setFieldsValue(item)
+    },0)
   
+
+  }
   const showPromiseConfirm = (item) => {
     confirm({
       title: `确定删除?`,
@@ -150,7 +146,7 @@ export default function RightList() {
 
   const confirmMethod = (item) => {
     showPromiseConfirm(item);
-    //  console.log(item)
+      // console.log(item)
   };
   //删除数据同步给后端
   const delMethod = (item) => {
@@ -160,7 +156,7 @@ export default function RightList() {
   };
   //用户状态控制
   const switchMethod=(item)=>{
-    console.log(item.roleState)
+    // console.log(item.roleState)
     item.roleState=!item.roleState
     setdataSource([...dataSource])
     axios.patch(`http://localhost:5000/users/${item.id}`,{
@@ -209,6 +205,7 @@ const setaddForm = () => {
         // 设置一个key值给Table组件通过rowKey
         rowKey={(item) => item.id}
       />
+      {/* 添加用户模态框 */}
       <Modal
         open={openMoadl}
         title="添加用户"
@@ -227,6 +224,25 @@ const setaddForm = () => {
           regionsList={regionsList}
         ></Userform>
       </Modal>
+       {/* 更新用户模态框 */}
+      <Modal
+      open={updataMoadl}
+      title="更新用户"
+      okText="确定"
+      cancelText="取消"
+      onCancel={() => {
+        setupdataMoadl(false);
+      }}
+      onOk={() => {
+        // setaddForm();
+      }}
+    >
+      <Userform
+        ref={updatedForm}
+        roleList={roleList}
+        regionsList={regionsList}
+      ></Userform>
+    </Modal>
     </div>
   );
 }
