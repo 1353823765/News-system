@@ -158,35 +158,6 @@
   ],
   "children": [
     {
-      "id": 3,
-      "title": "添加用户",
-      "rightId": 2,
-      "key": "/user-manage/add",
-      "grade": 2
-    },
-    {
-      "id": 4,
-      "title": "删除用户",
-      "rightId": 2,
-      "key": "/user-manage/delete",
-      "grade": 2
-    },
-    {
-      "id": 5,
-      "title": "修改用户",
-      "rightId": 2,
-      "key": "/user-manage/update",
-      "grade": 2
-    },
-    {
-      "id": 6,
-      "title": "用户列表",
-      "rightId": 2,
-      "key": "/user-manage/list",
-      "pagepermisson": 1,
-      "grade": 2
-    },
-    {
       "id": 8,
       "title": "角色列表",
       "rightId": 7,
@@ -323,13 +294,6 @@
       "id": 1,
       "title": "首页",
       "key": "/home",
-      "pagepermisson": 1,
-      "grade": 1
-    },
-    {
-      "id": 2,
-      "title": "用户管理",
-      "key": "/user-manage",
       "pagepermisson": 1,
       "grade": 1
     },
