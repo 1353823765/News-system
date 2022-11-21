@@ -195,6 +195,10 @@ const setaddForm = () => {
 const  setupdataform=()=>{
   updatedForm.current.validateFields().then(value=>{
     console.log(value)
+    setopenMoadl(false);
+    setdataSource
+
+
   })
 }
 
