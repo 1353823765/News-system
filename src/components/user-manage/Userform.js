@@ -5,6 +5,9 @@ const Userform = forwardRef((props, ref) => {
   const { Option } = Select;
   console.log(props);
   console.log(ref);
+  useEffect(()=>{
+    setsdistable(props.isUserformdisable)
+  },[props.isUserformdisable])
   return (
     <div>
       <Form layout="vertical" ref={ref}>

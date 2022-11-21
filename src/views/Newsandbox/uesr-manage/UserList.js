@@ -14,6 +14,7 @@ export default function RightList() {
   const [roleList, setroleList] = useState([]);
   const [regionsList, setregionsList] = useState([]);
   const [updataMoadl, setupdataMoadl] = useState(false);
+  const [updatadisable,setupdatadisable]=useState(false)
   const addForm = useRef(null);
   const updatedForm = useRef(null);
   const { confirm } = Modal;
@@ -103,7 +104,7 @@ export default function RightList() {
                 confirmMethod(item);
               }}
             >
-              <DeleteOutlined />
+              <DeleteOutlined/>
             </Button>
               <Button type="primary" shape="circle" disabled={item.default} 
               onClick={()=>{
@@ -121,8 +122,12 @@ export default function RightList() {
   ];
   const updatahandle=(item)=>{
     console.log(item)
-    setTimeout(()=>{
-      setupdataMoadl(true)
+    setTimeout(()=>{  setupdataMoadl(true)
+      if(item.roleId===1){
+        setupdatadisable(true)
+      }else{
+        setupdatadisable(false)
+      }
       updatedForm.current.setFieldsValue(item)
     },0)
   
@@ -131,7 +136,7 @@ export default function RightList() {
   const showPromiseConfirm = (item) => {
     confirm({
       title: `确定删除?`,
-      icon: <WarningOutlined />,
+      icon: <WarningOutlined/>,
       content: "点击OK按钮删除,点击Cancel按钮关闭对话框",
       onOk() {
         return new Promise((resolve) => {
@@ -186,6 +191,12 @@ const setaddForm = () => {
       });
   });
 };
+//设置更新数据
+const  setupdataform=()=>{
+  updatedForm.current.validateFields().then(value=>{
+    console.log(value)
+  })
+}
 
   return (
     <div>
@@ -193,6 +204,7 @@ const setaddForm = () => {
         type="primary"
         onClick={() => {
           setopenMoadl(true);
+         
         }}
       >
         添加用户
@@ -215,7 +227,8 @@ const setaddForm = () => {
           setopenMoadl(false);
         }}
         onOk={() => {
-          setaddForm();
+          setopenMoadl(false);
+          setaddForm()
         }}
       >
         <Userform
@@ -228,16 +241,20 @@ const setaddForm = () => {
       <Modal
       open={updataMoadl}
       title="更新用户"
-      okText="确定"
+      okText="更新"
       cancelText="取消"
+      onOk={() => {
+        setupdataMoadl(false);
+        // setupdatadisable(!updatadisable)
+      }}
       onCancel={() => {
         setupdataMoadl(false);
+        setupdatadisable(!updatadisable)
       }}
-      onOk={() => {
-        // setaddForm();
-      }}
+    
     >
       <Userform
+      isUserformdisable={updatadisable}
         ref={updatedForm}
         roleList={roleList}
         regionsList={regionsList}
