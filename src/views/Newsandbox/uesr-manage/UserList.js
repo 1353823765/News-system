@@ -192,15 +192,15 @@ const setaddForm = () => {
   });
 };
 //设置更新数据
-const  setupdataform=()=>{
-  updatedForm.current.validateFields().then(value=>{
-    console.log(value)
-    setopenMoadl(false);
-    setdataSource
+// const  setupdataform=()=>{
+//   updatedForm.current.validateFields().then(value=>{
+//     console.log(value)
+//     setopenMoadl(false);
+//     setdataSource
 
 
-  })
-}
+//   })
+// }
 
   return (
     <div>

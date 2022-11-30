@@ -5,9 +5,9 @@ const Userform = forwardRef((props, ref) => {
   const { Option } = Select;
   console.log(props);
   console.log(ref);
-  useEffect(()=>{
-    setsdistable(props.isUserformdisable)
-  },[props.isUserformdisable])
+  useEffect(() => {
+    setsdistable(props.isUserformdisable);
+  }, [props.isUserformdisable]);
   return (
     <div>
       <Form layout="vertical" ref={ref}>
@@ -21,7 +21,7 @@ const Userform = forwardRef((props, ref) => {
             },
           ]}
         >
-          <Input/>
+          <Input />
         </Form.Item>
         <Form.Item
           name="password"
@@ -38,12 +38,16 @@ const Userform = forwardRef((props, ref) => {
         <Form.Item
           name="region"
           label="区域"
-          rules={isdistable? []:[
-            {
-              required: true,
-              message:"Please input the title of collection!",
-            },
-          ]}
+          rules={
+            isdistable
+              ? []
+              : [
+                  {
+                    required: true,
+                    message: "Please input the title of collection!",
+                  },
+                ]
+          }
         >
           <Select
             disabled={isdistable}
