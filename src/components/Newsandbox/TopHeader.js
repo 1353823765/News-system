@@ -2,17 +2,28 @@ import React, { useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UserOutlined,
+  UserOutlined
+  
 } from "@ant-design/icons";
-import { Layout, Dropdown, Menu, Space, Avatar } from "antd";
+import { Layout, Dropdown, Menu, Avatar } from "antd";
+import { withRouter } from "react-router-dom";
+
 const { Header } = Layout;
-export default function TopHeader(props) {
+ function TopHeader(props) {
+ 
   const menu = (
     <Menu>
-      <Menu.Item>超级管理员</Menu.Item>
-      <Menu.Item danger>退出</Menu.Item>
+      <Menu.Item key="1">超级管理员</Menu.Item>
+      <Menu.Item  key="2" danger onClick={()=>{
+        localStorage.removeItem("token")
+      props.history.replace("/login")
+      
+
+      }}>退出</Menu.Item>
     </Menu>
-  );
+
+);
+  
   const [collapsed, setCollapsed] = useState(false);
   const changecollapsed = () => {
     setCollapsed(!collapsed);
@@ -42,3 +53,4 @@ export default function TopHeader(props) {
     </Header>
   );
 }
+export default withRouter(TopHeader)

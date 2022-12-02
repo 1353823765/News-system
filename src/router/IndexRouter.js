@@ -1,5 +1,5 @@
 import React from 'react'
-import { HashRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { HashRouter, Redirect, Route, Switch } from "react-router-dom"
 import Login from '../views/Login/Login'
 import NewsSandBox from '../views/Newsandbox/NewsSandBox'
 export default function IndexRouter() {
