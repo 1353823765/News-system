@@ -10,10 +10,13 @@ import { withRouter } from "react-router-dom";
 
 const { Header } = Layout;
  function TopHeader(props) {
- 
+ const  name=JSON.parse(localStorage.getItem("token"))
+ const {role,username}=name
+console.log(role.roleName)
+ console.log(username)
   const menu = (
     <Menu>
-      <Menu.Item key="1">超级管理员</Menu.Item>
+      <Menu.Item key="1">{role.roleName}</Menu.Item>
       <Menu.Item  key="2" danger onClick={()=>{
         localStorage.removeItem("token")
       props.history.replace("/login")
@@ -35,17 +38,14 @@ const { Header } = Layout;
         padding: "0 16px",
       }}
     >
-      {/* React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          }) */}
+  
       {collapsed ? (
         <MenuUnfoldOutlined onClick={changecollapsed} />
       ) : (
         <MenuFoldOutlined onClick={changecollapsed} />
       )}
       <div style={{ float: "right" }}>
-        <span>欢迎ADMIN回来</span>
+        <span>欢迎<span style={{color:"#1890ff"}}>{username}</span>回来</span>
         <Dropdown overlay={menu}>
           <Avatar size="large" icon={<UserOutlined />} />
         </Dropdown>
