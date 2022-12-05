@@ -13,9 +13,15 @@
     "http-proxy-middleware": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.3",
+    "react-particles": "^2.5.3",
+    "react-router-dom": "^5.3.4",
     "react-scripts": "5.0.1",
+    "react-tsparticles": "^2.5.3",
     "scss": "^0.2.4",
+    "tsparticles": "^2.5.3",
+    "tsparticles-engine": "^2.5.2",
+    "tsparticles-preset-snow": "^2.5.3",
+    "tsparticles-preset-stars": "^2.5.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

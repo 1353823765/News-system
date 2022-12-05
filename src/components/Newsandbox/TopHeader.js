@@ -2,17 +2,31 @@ import React, { useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UserOutlined,
+  UserOutlined
+  
 } from "@ant-design/icons";
-import { Layout, Dropdown, Menu, Space, Avatar } from "antd";
+import { Layout, Dropdown, Menu, Avatar } from "antd";
+import { withRouter } from "react-router-dom";
+
 const { Header } = Layout;
-export default function TopHeader(props) {
+ function TopHeader(props) {
+ const  name=JSON.parse(localStorage.getItem("token"))
+ const {role,username}=name
+console.log(role.roleName)
+ console.log(username)
   const menu = (
     <Menu>
-      <Menu.Item>超级管理员</Menu.Item>
-      <Menu.Item danger>退出</Menu.Item>
+      <Menu.Item key="1">{role.roleName}</Menu.Item>
+      <Menu.Item  key="2" danger onClick={()=>{
+        localStorage.removeItem("token")
+      props.history.replace("/login")
+      
+
+      }}>退出</Menu.Item>
     </Menu>
-  );
+
+);
+  
   const [collapsed, setCollapsed] = useState(false);
   const changecollapsed = () => {
     setCollapsed(!collapsed);
@@ -24,17 +38,14 @@ export default function TopHeader(props) {
         padding: "0 16px",
       }}
     >
-      {/* React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: () => setCollapsed(!collapsed),
-          }) */}
+  
       {collapsed ? (
         <MenuUnfoldOutlined onClick={changecollapsed} />
       ) : (
         <MenuFoldOutlined onClick={changecollapsed} />
       )}
       <div style={{ float: "right" }}>
-        <span>欢迎ADMIN回来</span>
+        <span>欢迎<span style={{color:"#1890ff"}}>{username}</span>回来</span>
         <Dropdown overlay={menu}>
           <Avatar size="large" icon={<UserOutlined />} />
         </Dropdown>
@@ -42,3 +53,4 @@ export default function TopHeader(props) {
     </Header>
   );
 }
+export default withRouter(TopHeader)

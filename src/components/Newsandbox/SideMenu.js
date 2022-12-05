@@ -85,15 +85,16 @@ const iconList={
  "/publish-manage/published":<VerifiedOutlined />,
  "/publish-manage/sunset":<FileExcelOutlined />
  }
+ const  {role:{rights}}=JSON.parse(localStorage.getItem("token"))
  //通过后端返回来的数据中的pagepermisson的值来决定左侧列表中显示项
  const  verdictpagepermisson=(item)=>{
-  return item.pagepermisson
+  return item.pagepermisson&&rights.includes(item.key)
+
  }
  const [collapsed, setCollapsed] = useState(false);
  //左侧边栏高亮显示用路径代表唯一
  const SelectedKeys=props.location.pathname
  //  
- 
  const OpenKeys=`/${SelectedKeys.split("/")[1]}`
  const renderMenu=(menulist)=>{
     return menulist.map(item=>{
@@ -119,20 +120,6 @@ const iconList={
       <div className="div-menu">
       <Menu theme="dark" mode="inline" selectedKeys={[SelectedKeys]} 
       defaultOpenKeys={[OpenKeys]}>
-        {/*  <Menu.Item icon={<UserOutlined />} key="1">
-        nav1
-        </Menu.Item>
-        <Menu.Item icon={<VideoCameraOutlined />} key="2">
-          nav2
-        </Menu.Item>
-        <Menu.Item icon={<VideoCameraOutlined />} key="3">
-          nav3
-        </Menu.Item>
-         <SubMenu title="用户管理"> 
-         <Menu.Item  key="6">option1</Menu.Item>
-         <Menu.Item key="7">option2</Menu.Item>
-         <Menu.Item  key="8">option3</Menu.Item>
-         </SubMenu> */}
         {renderMenu(menulist)}
       </Menu>
       </div>
@@ -140,10 +127,4 @@ const iconList={
     </Sider>
   );
 }
-// <SubMenu>
-// <Menu.Item icon={<VideoCameraOutlined />} key="3">1</Menu.Item>
-// <Menu.Item icon={<VideoCameraOutlined />} key="3">2</Menu.Item>
-// <Menu.Item icon={<VideoCameraOutlined />} key="3">3</Menu.Item>
-// </SubMenu>
-//withRouter高阶组件为了获取props中的history进行页面切换
 export default withRouter(SideMenu)
