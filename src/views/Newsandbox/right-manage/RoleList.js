@@ -12,7 +12,7 @@ export default function RoleList() {
   const [listSource, setlistSource] = useState([]);
   const [currentId,setcurrentId]=useState(0)
   useEffect(() => {
-    axios.get("  http://localhost:5000/roles").then((res) => {
+    axios.get("  /roles").then((res) => {
       console.log(res.data);
       //由于数组的第一项中的children这个字段为空但是他也会显示
       //我们先将这一项设置为空
@@ -20,7 +20,7 @@ export default function RoleList() {
     });
   }, []);
   useEffect(() => {
-    axios.get("  http://localhost:5000/rights?_embed=children").then((res) => {
+    axios.get("  /rights?_embed=children").then((res) => {
       console.log(res.data);
       //由于数组的第一项中的children这个字段为空但是他也会显示
       //我们先将这一项设置为空
@@ -96,7 +96,7 @@ export default function RoleList() {
   const delMethod = (item) => {
     console.log(item);
     setdataSource(dataSource.filter((data) => data.id !== item.id));
-    axios.delete(`http://localhost:5000/roles/${item.id}`);
+    axios.delete(`/roles/${item.id}`);
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -118,7 +118,7 @@ export default function RoleList() {
     
 )
    console.log(dataSource)
-  axios.patch(`http://localhost:5000/roles/${currentId}`,
+  axios.patch(`/roles/${currentId}`,
   {
     rights:listSource
   }

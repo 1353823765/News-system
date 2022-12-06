@@ -9,7 +9,7 @@ export default function Login(props) {
   console.log(props)
   const onFinish = (value) => {
     console.log("Success:", value);
-    axios.get(`http://localhost:5000/users?username=${value.username}&password=${value.password}&roleState=true&_expand=role
+    axios.get(`/users?username=${value.username}&password=${value.password}&roleState=true&_expand=role
     `).then(res=>{console.log(res.data[0])
       if(res.data.length===0){
        message.error("用户名密码错误")

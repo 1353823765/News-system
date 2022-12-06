@@ -11,7 +11,7 @@ import { Tag, Button, Table, Modal, Popover, Switch } from "antd";
 export default function RightList() {
   const [dataSource, setdataSource] = useState([]);
   useEffect(() => {
-    axios.get("  http://localhost:5000/rights?_embed=children").then((res) => {
+    axios.get("  /rights?_embed=children").then((res) => {
       console.log(res.data);
       //由于数组的第一项中的children这个字段为空但是他也会显示
       //我们先将这一项设置为空
@@ -111,11 +111,11 @@ export default function RightList() {
     //第2种方写一个函数实现
     setPage(item);
     if (item.grade === 1) {
-      axios.patch(`http://localhost:5000/rights/${item.id}`, {
+      axios.patch(`/rights/${item.id}`, {
         pagepermisson: item.pagepermisson,
       });
     } else {
-      axios.patch(`http://localhost:5000/rights/${item.id}`, {
+      axios.patch(`/rights/${item.id}`, {
         pagepermisson: item.pagepermisson,
       });
     }
@@ -146,7 +146,7 @@ export default function RightList() {
     if (item.grade === 1) {
       console.log(item);
       setdataSource(dataSource.filter((data) => data.id !== item.id));
-      axios.delete(`http://localhost:5000/rights/${item.id}`);
+      axios.delete(`/rights/${item.id}`);
     } else {
       console.log(item.rightId);
       let list = dataSource.filter((value) => value.id === item.rightId);

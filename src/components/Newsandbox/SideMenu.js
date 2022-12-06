@@ -20,50 +20,11 @@ import { Layout, Menu } from "antd";
 import axios from "axios";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
-//固定格式左侧列表数据
-// const menuList = [
-//   {
-//     icon: <UserOutlined />,
-//     title: "首页",
-//     key: "/home",
-//   },
-//   {
-//     icon: <UserOutlined />,
-//     title: "用户管理",
-//     key: "/user-manage",
-//     children: [
-//       {
-//         title: "用户列表",
-//         icon: <SettingOutlined/>,
-//         key: "/user-manage/list",
-//       },
-//     ],
-//   },
-//   {
-//     icon: <UserOutlined/>,
-//     title: "权限管理",
-//     key: "/right-manage",
-//     children: [
-//       {
-//         title: "角色列表",
-//         icon: <VideoCameraOutlined />,
-//         key: "/right-manage/role/list",
-//       },
-//       {
-//         title: "权限列表",
-//         icon: <UserOutlined/>,
-//         key: "/user-manage/right/list",
-//       },
-//     ],
-//   },
-// ];
-  
-//http://localhost:5000/rights?_embed=children
  function SideMenu(props) {
   console.log(props)
   const [menulist,setmenulist]=useState([])
  useEffect(()=>{
-    axios("http://localhost:5000/rights?_embed=children").then(res=>{
+    axios("/rights?_embed=children").then(res=>{
       // console.log(res.data),
   setmenulist(res.data)
   

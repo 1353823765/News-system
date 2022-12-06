@@ -3,11 +3,9 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserOutlined
-  
 } from "@ant-design/icons";
 import { Layout, Dropdown, Menu, Avatar } from "antd";
 import { withRouter } from "react-router-dom";
-
 const { Header } = Layout;
  function TopHeader(props) {
  const  name=JSON.parse(localStorage.getItem("token"))
@@ -20,13 +18,9 @@ console.log(role.roleName)
       <Menu.Item  key="2" danger onClick={()=>{
         localStorage.removeItem("token")
       props.history.replace("/login")
-      
-
       }}>退出</Menu.Item>
     </Menu>
-
 );
-  
   const [collapsed, setCollapsed] = useState(false);
   const changecollapsed = () => {
     setCollapsed(!collapsed);
