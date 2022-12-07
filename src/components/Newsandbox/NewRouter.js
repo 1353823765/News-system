@@ -50,9 +50,11 @@ export default function NewRouter() {
   return (
     <Switch>
       {Backlist.map((item) => {
+        
         if(checkRouter(item)&&checkNotPremission(item)){
           return <Route
           path={item.key}
+          key={item.key}
           component={LocalRouterMap[item.key]}
           exact
         ></Route>

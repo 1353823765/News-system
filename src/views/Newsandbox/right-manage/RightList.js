@@ -11,7 +11,7 @@ import { Tag, Button, Table, Modal, Popover, Switch } from "antd";
 export default function RightList() {
   const [dataSource, setdataSource] = useState([]);
   useEffect(() => {
-    axios.get("  /rights?_embed=children").then((res) => {
+    axios.get("/rights?_embed=children").then((res) => {
       console.log(res.data);
       //由于数组的第一项中的children这个字段为空但是他也会显示
       //我们先将这一项设置为空

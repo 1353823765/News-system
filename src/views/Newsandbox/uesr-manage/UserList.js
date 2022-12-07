@@ -249,7 +249,7 @@ export default function UserList() {
       />
 
       <Modal
-        visible={isAddVisible}
+        open={isAddVisible}
         title="添加用户"
         okText="确定"
         cancelText="取消"
@@ -266,7 +266,7 @@ export default function UserList() {
       </Modal>
 
       <Modal
-        visible={isUpdateVisible}
+        open={isUpdateVisible}
         title="更新用户"
         okText="更新"
         cancelText="取消"

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UserOutlined
+  UserOutlined,
+  SmileOutlined
 } from "@ant-design/icons";
 import { Layout, Dropdown, Menu, Avatar } from "antd";
 import { withRouter } from "react-router-dom";
@@ -12,15 +13,28 @@ const { Header } = Layout;
  const {role,username}=name
 console.log(role.roleName)
  console.log(username)
-  const menu = (
-    <Menu>
-      <Menu.Item key="1">{role.roleName}</Menu.Item>
-      <Menu.Item  key="2" danger onClick={()=>{
-        localStorage.removeItem("token")
-      props.history.replace("/login")
-      }}>退出</Menu.Item>
-    </Menu>
-);
+ const items = [
+  {
+    key: '1',
+    
+    label:<span> {role.roleName}</span>  },
+  {
+    key: '2',
+    label:<span onClick={()=>{
+              localStorage.removeItem("token")
+            props.history.replace("/login")
+           }}>退出</span>,
+    danger: true,
+  }]
+//   const menu = (
+//     <Menu>
+//       <Menu.Item key="1">{role.roleName}</Menu.Item>
+//       <Menu.Item  key="2" danger onClick={()=>{
+//         localStorage.removeItem("token")
+//       props.history.replace("/login")
+//       }}>退出</Menu.Item>
+//     </Menu>
+// );
   const [collapsed, setCollapsed] = useState(false);
   const changecollapsed = () => {
     setCollapsed(!collapsed);
@@ -40,9 +54,11 @@ console.log(role.roleName)
       )}
       <div style={{ float: "right" }}>
         <span>欢迎<span style={{color:"#1890ff"}}>{username}</span>回来</span>
-        <Dropdown overlay={menu}>
+        <Dropdown  menu={{items}}>
+        
+        
           <Avatar size="large" icon={<UserOutlined />} />
-        </Dropdown>
+         </Dropdown>
       </div>
     </Header>
   );

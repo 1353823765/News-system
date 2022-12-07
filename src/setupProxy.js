@@ -5,7 +5,7 @@ module.exports = function(app) {
     '/api',
     createProxyMiddleware({
         //代理的网站
-      target: '',
+      target: 'http://localhost:3000',
       changeOrigin: true,
     })
   );
