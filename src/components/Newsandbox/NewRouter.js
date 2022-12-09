@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+
+import axios from "axios";
 import UserList from "../../views/Newsandbox/uesr-manage/UserList";
 import RightList from "../../views/Newsandbox/right-manage/RightList";
 import RoleList from "../../views/Newsandbox/right-manage/RoleList";
@@ -13,8 +15,7 @@ import PublishedSunset from "../../views/Newsandbox/publish-manage/PublishedSuns
 import NewAuditList from "../../views/Newsandbox/audit-manage/NewAuditList";
 import NewCategory from "../../views/Newsandbox/news-manage/NewCategory";
 import NewDraft from "../../views/Newsandbox/news-manage/NewDraft";
-import { useEffect } from "react";
-import axios from "axios";
+import NewsPreview from "../../views/Newsandbox/news-manage/NewsPreview";
 const LocalRouterMap = {
   "/home": Home,
   "/user-manage/list": UserList,
@@ -22,6 +23,7 @@ const LocalRouterMap = {
   "/right-manage/right/list": RightList,
   "/news-manage/add": NewAdd,
   "/news-manage/draft": NewDraft,
+ "/news-manage/preview/:id":NewsPreview,
   "/news-manage/category": NewCategory,
   "/audit-manage/audit": NewAudit,
   "/audit-manage/list": NewAuditList,
@@ -42,7 +44,7 @@ export default function NewRouter() {
   const {role:{rights}}=JSON.parse(localStorage.getItem("token"))
   
   const checkRouter=(item)=>{
-     return LocalRouterMap[item.key]&&item.pagepermisson
+     return LocalRouterMap[item.key]&&(item.pagepermisson||item.routepermisson)
   }
   const checkNotPremission=(item)=>{
   return rights.includes(item.key)
@@ -61,10 +63,11 @@ export default function NewRouter() {
         }
        return null
       })}
-      <Redirect from="/" to="/home"></Redirect>
       {Backlist.length > 0 && (
         <Route path="*" component={NotPremission}></Route>
       )}
+      <Redirect from="/" to="/home" exact></Redirect>
+      
     </Switch>
   );
 }

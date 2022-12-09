@@ -3,9 +3,9 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserOutlined,
-  SmileOutlined
+  
 } from "@ant-design/icons";
-import { Layout, Dropdown, Menu, Avatar } from "antd";
+import { Layout, Dropdown,  Avatar } from "antd";
 import { withRouter } from "react-router-dom";
 const { Header } = Layout;
  function TopHeader(props) {

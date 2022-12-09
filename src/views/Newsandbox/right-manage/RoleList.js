@@ -148,6 +148,7 @@ export default function RoleList() {
         <Tree
           checkStrictly={true}
           checkable
+        
           onCheck={onCheck}
           checkedKeys={listSource}
           treeData={treeData}

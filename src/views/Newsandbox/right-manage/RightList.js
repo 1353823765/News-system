@@ -160,7 +160,7 @@ export default function RightList() {
         dataSource={dataSource}
         columns={columns}
         pagination={{ pageSize: 5 }}
-        
+        rowKey={(item) => item.id}
       />
     </div>
   );
