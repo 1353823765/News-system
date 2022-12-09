@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { Button, Table, Modal, Tooltip } from "antd";
 import { formatDate } from "./const-NewDraft";
-export default function RightList() {
+export default function RightList( props) {
   const [dataSource, setdataSource] = useState([]);
   const { username } = JSON.parse(localStorage.getItem("token"));
  
@@ -77,8 +77,11 @@ export default function RightList() {
                 <DeleteOutlined />
               </Button>
             </Tooltip>
-            <Tooltip title="修改">
-              <Button type="primary" shape="circle">
+            <Tooltip title="修改" >
+              <Button type="primary" shape="circle" onClick={()=>{
+                 props.history.push(`/news-manage/update/${item.id}`)
+                
+              }}>
               <FormOutlined />
               </Button>
             </Tooltip>

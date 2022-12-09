@@ -11,8 +11,8 @@ const { Header } = Layout;
  function TopHeader(props) {
  const  name=JSON.parse(localStorage.getItem("token"))
  const {role,username}=name
-console.log(role.roleName)
- console.log(username)
+// console.log(role.roleName)
+//  console.log(username)
  const items = [
   {
     key: '1',

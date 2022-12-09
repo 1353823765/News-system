@@ -13,6 +13,7 @@ import Nnpublished from "../../views/Newsandbox/publish-manage/Nnpublished";
 import Published from "../../views/Newsandbox/publish-manage/Published";
 import PublishedSunset from "../../views/Newsandbox/publish-manage/PublishedSunset";
 import NewAuditList from "../../views/Newsandbox/audit-manage/NewAuditList";
+import NewUpdate from "../../views/Newsandbox/news-manage/NewUpdate";
 import NewCategory from "../../views/Newsandbox/news-manage/NewCategory";
 import NewDraft from "../../views/Newsandbox/news-manage/NewDraft";
 import NewsPreview from "../../views/Newsandbox/news-manage/NewsPreview";
@@ -24,6 +25,7 @@ const LocalRouterMap = {
   "/news-manage/add": NewAdd,
   "/news-manage/draft": NewDraft,
  "/news-manage/preview/:id":NewsPreview,
+"/news-manage/update/:id":NewUpdate,
   "/news-manage/category": NewCategory,
   "/audit-manage/audit": NewAudit,
   "/audit-manage/list": NewAuditList,

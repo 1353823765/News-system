@@ -21,7 +21,7 @@ import axios from "axios";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 function SideMenu(props) {
-  console.log(props);
+  // console.log(props);
   const [menulist, setmenulist] = useState([]);
   useEffect(() => {
     axios("/rights?_embed=children").then((res) => {

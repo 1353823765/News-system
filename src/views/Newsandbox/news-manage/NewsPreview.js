@@ -21,6 +21,7 @@ const publishcolor=["red","yellow","green","red"]
     {
         newsInfo&&<div>
         <PageHeader
+        onBack={() => window.history.back()}
         ghost={false}
         title={newsInfo.title}
         subTitle={newsInfo.category.title}
@@ -56,4 +57,5 @@ const publishcolor=["red","yellow","green","red"]
     </div>
   )
 }
+
 
