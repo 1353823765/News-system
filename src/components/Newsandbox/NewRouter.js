@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-
 import axios from "axios";
 import UserList from "../../views/Newsandbox/uesr-manage/UserList";
 import RightList from "../../views/Newsandbox/right-manage/RightList";
@@ -54,7 +53,6 @@ export default function NewRouter() {
   return (
     <Switch>
       {Backlist.map((item) => {
-        
         if(checkRouter(item)&&checkNotPremission(item)){
           return <Route
           path={item.key}

@@ -11,8 +11,6 @@ export default function NewAdd(props) {
   const [content, setContent] = useState("");
   const NewForm = useRef(null);
   const { Option } = Select;
-  
-  const  User=JSON.parse(localStorage.getItem("token"))
   const handNext = () => {
     if (current === 0) {
       NewForm.current
@@ -44,17 +42,17 @@ export default function NewAdd(props) {
   };
   //保存草稿箱
   const handleSave = (auditState) => {
-    axios.post("/news", {
+    axios.patch(`/news/${props.match.params.id}`, {
       ...formInfo,
       "content": content,
-      "region": User.region?User.region:"全球" ,
-      "author": User.username,
-      "roleId": User.roleId,
+      // "region": User.region?User.region:"全球" ,
+      // "author": User.username,
+      // "roleId": User.roleId,
       "auditState": auditState,
-      "publishState": 0,
-      "createTime": Date.now(),
-      "star": 0,
-      "view": 0,
+      // "publishState": 0,
+      // "createTime": Date.now(),
+      // "star": 0,
+      // "view": 0,
    
       //"publishTime": 0,
     }).then(res=>{
@@ -75,10 +73,12 @@ export default function NewAdd(props) {
       console.log(res.data);
     });
   }, []);
-  useEffect(()=>{
+  useEffect(
+    ()=>{
     console.log(props.match.params.id)
 axios.get(`/news/${props.match.params.id}?_expand=category&_expand=role`)
-.then(res=>{let {title,categoryId,content}=res.data
+.then(res=>{
+  let {title,categoryId,content}=res.data
  NewForm.current.setFieldsValue({
         title,categoryId
     })
@@ -87,13 +87,14 @@ axios.get(`/news/${props.match.params.id}?_expand=category&_expand=role`)
     // setnewInfo(res.data)
 
 
-    )
+    )},[props.match.params.id])
 
 
 
-},[props.match.params.id])
+
   return (
     <div>
+ 
       <PageHeader
       onBack={()=>window.history.back()}
         title="更新新闻"

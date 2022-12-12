@@ -7,7 +7,7 @@ import {
   FormOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
-import { Button, Table, Modal, Tooltip } from "antd";
+import { Button, Table, Modal, Tooltip,notification } from "antd";
 import { formatDate } from "./const-NewDraft";
 export default function RightList( props) {
   const [dataSource, setdataSource] = useState([]);
@@ -86,7 +86,9 @@ export default function RightList( props) {
               </Button>
             </Tooltip>
             <Tooltip title="提交">
-              <Button type="primary" shape="circle">
+              <Button type="primary" shape="circle" onClick={()=>{
+                handleChange(item.id)
+              }}>
               <ToTopOutlined />
               </Button>
             </Tooltip>
@@ -119,6 +121,21 @@ export default function RightList( props) {
   //     });
   //   }
   // };
+  const handleChange=(itemId)=>{
+   axios.patch(`/news/${itemId}`,{
+    auditState:1
+  } ).then(res=>{
+   
+  
+  props.history.push(`/audit-manage/list`)
+  notification.info({
+    message: `提示信息`,
+    description:`您可以在审核列表查看您的新闻`,
+    placement:"bottomRight"
+  });
+
+   })
+  }
   //删除对话框
   const showPromiseConfirm = (item) => {
     confirm({

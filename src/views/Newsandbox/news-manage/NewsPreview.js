@@ -5,9 +5,9 @@ import moment from 'moment';
 export default function NewsPreview(props) {
 const [newsInfo,setnewInfo]=useState(null)
 const   auditlist=["未审核","审核中","已通过","未通过"]
-const auditcolor=["red","yellow","green","red"]
+const auditcolor=["red","gold","green","red"]
 const publishlist=["未发布","已发布","已上线","已下线"]
-const publishcolor=["red","yellow","green","red"]
+const publishcolor=["red","gold","green","red"]
     useEffect(()=>{
         console.log(props.match.params.id)
  axios.get(`/news/${props.match.params.id}?_expand=category&_expand=role`)
