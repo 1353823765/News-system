@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Button, Table, Modal, Switch } from 'antd'
 import axios from 'axios'
 import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
-import UserForm from '../../../components/user-manage/UserForm'
+import UserForm from '../../../components/user-manage/Userform'
+
 const { confirm } = Modal
 
 export default function UserList() {
@@ -12,39 +13,37 @@ export default function UserList() {
     const [roleList, setroleList] = useState([])
     const [regionList, setregionList] = useState([])
     const [current, setcurrent] = useState(null)
+
     const [isUpdateDisabled, setisUpdateDisabled] = useState(false)
     const addForm = useRef(null)
     const updateForm = useRef(null)
-    const {roleId,region,username,}=JSON.parse(localStorage.getItem("token"))
-  
+    
+    const {roleId,region,username}  = JSON.parse(localStorage.getItem("token"))
+
     useEffect(() => {
-        const roleobj={
+        const roleObj = {
             "1":"superadmin",
             "2":"admin",
             "3":"editor"
         }
-        axios.get("http://localhost:5000/users?_expand=role").then(res => {
-           
+        axios.get("/users?_expand=role").then(res => {
             const list = res.data
-            setdataSource(
-                roleobj[roleId]==="superadmin"?list:[
+            setdataSource(roleObj[roleId]==="superadmin"?list:[
                 ...list.filter(item=>item.username===username),
-            ...list.filter(item=>item.region===region&&roleobj[item.roleId] ==="editor")
-            ]
-          
-            )
+                ...list.filter(item=>item.region===region&& roleObj[item.roleId]==="editor")
+            ])
         })
-    }, [])
+    }, [roleId,region,username])
 
     useEffect(() => {
-        axios.get("http://localhost:5000/regions").then(res => {
+        axios.get("/regions").then(res => {
             const list = res.data
             setregionList(list)
         })
     }, [])
 
     useEffect(() => {
-        axios.get("http://localhost:5000/roles").then(res => {
+        axios.get("/roles").then(res => {
             const list = res.data
             setroleList(list)
         })
@@ -128,7 +127,7 @@ export default function UserList() {
         item.roleState = !item.roleState
         setdataSource([...dataSource])
 
-        axios.patch(`http://localhost:5000/users/${item.id}`,{
+        axios.patch(`/users/${item.id}`,{
             roleState:item.roleState
         })
     }
@@ -155,7 +154,7 @@ export default function UserList() {
 
         setdataSource(dataSource.filter(data=>data.id!==item.id))
 
-        axios.delete(`http://localhost:5000/users/${item.id}`)
+        axios.delete(`/users/${item.id}`)
     }
 
     const addFormOK = () => {
@@ -166,7 +165,7 @@ export default function UserList() {
 
             addForm.current.resetFields()
             //post到后端，生成id，再设置 datasource, 方便后面的删除和更新
-            axios.post(`http://localhost:5000/users`, {
+            axios.post(`/users`, {
                 ...value,
                 "roleState": true,
                 "default": false,
@@ -199,7 +198,7 @@ export default function UserList() {
             }))
             setisUpdateDisabled(!isUpdateDisabled)
 
-            axios.patch(`http://localhost:5000/users/${current.id}`,value)
+            axios.patch(`/users/${current.id}`,value)
         })
     }
 
@@ -216,7 +215,7 @@ export default function UserList() {
             />
 
             <Modal
-                visible={isAddVisible}
+                open={isAddVisible}
                 title="添加用户"
                 okText="确定"
                 cancelText="取消"
@@ -229,7 +228,7 @@ export default function UserList() {
             </Modal>
 
             <Modal
-                visible={isUpdateVisible}
+            open={isUpdateVisible}
                 title="更新用户"
                 okText="更新"
                 cancelText="取消"
@@ -239,7 +238,7 @@ export default function UserList() {
                 }}
                 onOk={() => updateFormOK()}
             >
-                <UserForm regionList={regionList} roleList={roleList} ref={updateForm} isUpdateDisabled={isUpdateDisabled}></UserForm>
+                <UserForm regionList={regionList} roleList={roleList} ref={updateForm} isUpdateDisabled={isUpdateDisabled} isUpdate={true}></UserForm>
             </Modal>
 
         </div>

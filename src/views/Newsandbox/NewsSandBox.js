@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout } from "antd";
 import 'antd/dist/antd.min.css';
-import { Redirect, Route, Switch } from "react-router-dom";
+import NProgress from "nprogress"
+import "nprogress/nprogress.css";
 import SideMenu from "../../components/Newsandbox/SideMenu";
 import TopHeader from "../../components/Newsandbox/TopHeader";
-import Home from "../Newsandbox/home/Home";
-import UserList from "../Newsandbox/uesr-manage/UserList";
-import RightList from "../Newsandbox/right-manage/RightList";
-import RoleList from "../Newsandbox/right-manage/RoleList";
-import NotPremission from "../Newsandbox/notpremission/NotPremission";
+
+import NewRouter from "../../components/Newsandbox/NewRouter";
 import "./NewsSandBox.css"
 const { Content } = Layout;
 export default function Newsandbox() {
+  NProgress.start();
+  useEffect(()=>{
+    NProgress.done();
+  })
   return (
     <Layout>
       <SideMenu ></SideMenu>
@@ -27,16 +29,11 @@ export default function Newsandbox() {
           overflow:"auto"
         }}
       >
-        <Switch>
-          <Route path="/home" component={Home}></Route>
-          <Route path="/user-manage/list" component={UserList}></Route>
-          <Route path="/right-manage/role/list" component={RoleList}></Route>
-          <Route path="/right-manage/right/list" component={RightList}></Route>
-          <Redirect from="/" to="/home" exact></Redirect>
-          <Route path="*" component={NotPremission}></Route>
-        </Switch>
+        <NewRouter></NewRouter>
       </Content>
       </Layout>
-    </Layout>
+    </Layout> 
+   
   );
+
 }
