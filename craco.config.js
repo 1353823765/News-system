@@ -3,7 +3,10 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+
+
 module.exports = {
+  
   plugins: [
     new BundleAnalyzerPlugin(),
     // gzip
@@ -35,4 +38,5 @@ module.exports = {
   },
   mode: "development",
   devtool: "eval-cheap-module-source-map",
+  
 };
