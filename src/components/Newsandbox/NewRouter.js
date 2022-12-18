@@ -1,5 +1,7 @@
 import React, { useState,useEffect } from "react";
+import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
+import {  Spin } from 'antd';
 import axios from "axios";
 import UserList from "../../views/Newsandbox/uesr-manage/UserList";
 import RightList from "../../views/Newsandbox/right-manage/RightList";
@@ -32,7 +34,9 @@ const LocalRouterMap = {
   "/publish-manage/published": Published,
   "/publish-manage/sunset": PublishedSunset,
 };
-export default function NewRouter() {
+ function NewRouter(props) {
+  
+  const {isLoading}=props
   const [Backlist, setBacklist] = useState([]);
   useEffect(() => {
     Promise.all([
@@ -50,7 +54,9 @@ export default function NewRouter() {
   const checkNotPremission=(item)=>{
   return rights.includes(item.key)
   }
+ 
   return (
+    <Spin size="large"  spinning={isLoading}>
     <Switch>
       {Backlist.map((item) => {
         if(checkRouter(item)&&checkNotPremission(item)){
@@ -69,5 +75,13 @@ export default function NewRouter() {
       <Redirect from="/" to="/home" exact></Redirect>
       
     </Switch>
-  );
+    </Spin>
+  )
 }
+const mapStateToProps = (state, ownProps) => {
+ 
+return {
+  isLoading:state.LoadingReducer.isLoading
+}
+}
+ export default connect(mapStateToProps)(NewRouter)

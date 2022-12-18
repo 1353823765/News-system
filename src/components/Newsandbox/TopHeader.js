@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -6,12 +7,22 @@ import {
 } from "@ant-design/icons";
 import { Layout, Dropdown, Avatar } from "antd";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import  * as actions from "../../redux/actions/actions";
+
+
 const { Header } = Layout;
+
 function TopHeader(props) {
   const name = JSON.parse(localStorage.getItem("token"));
+  
+
   const { role, username } = name;
-  // console.log(role.roleName)
-  //  console.log(username)
+  const {isCollapsed,checkcollapsed}=props
+  
+// console.log(props)
+  console.log(isCollapsed)
+  
   const items = [
     {
       key: "1",
@@ -33,19 +44,7 @@ function TopHeader(props) {
       danger: true,
     },
   ];
-  //   const menu = (
-  //     <Menu>
-  //       <Menu.Item key="1">{role.roleName}</Menu.Item>
-  //       <Menu.Item  key="2" danger onClick={()=>{
-  //         localStorage.removeItem("token")
-  //       props.history.replace("/login")
-  //       }}>退出</Menu.Item>
-  //     </Menu>
-  // );
-  const [collapsed, setCollapsed] = useState(false);
-  const changecollapsed = () => {
-    setCollapsed(!collapsed);
-  };
+
   return (
     <Header
       className="site-layout-background"
@@ -53,11 +52,13 @@ function TopHeader(props) {
         padding: "0 16px",
       }}
     >
-      {collapsed ? (
-        <MenuUnfoldOutlined onClick={changecollapsed} />
+      {isCollapsed ? (
+        <MenuUnfoldOutlined onClick={checkcollapsed} />
       ) : (
-        <MenuFoldOutlined onClick={changecollapsed} />
+        
+        <MenuFoldOutlined onClick={checkcollapsed} />
       )}
+      
       <div style={{ float: "right" }}>
         <span>
           欢迎<span style={{ color: "#1890ff" }}>{username}</span>回来
@@ -69,4 +70,13 @@ function TopHeader(props) {
     </Header>
   );
 }
-export default withRouter(TopHeader);
+ const mapStateToProps = (state, ownProps) => {
+  
+ 
+  return {
+    isCollapsed:state.Collapsereducer.isCollapsed
+
+  }
+ }
+
+export default connect(mapStateToProps,actions)( withRouter(TopHeader))

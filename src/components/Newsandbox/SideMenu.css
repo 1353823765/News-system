@@ -1,15 +1,7 @@
-/* .logo{
-    color: #fff;
-    font-size: 20px;
-    text-align: center;
-    background-color: rgba(0,0,0,.85);
-  }
-   */
-   .left-div{
+ .left-div{
     display: flex;
     height: 100%;
     flex-direction: column;
-
    }
    .div-menu{
     flex: 1;

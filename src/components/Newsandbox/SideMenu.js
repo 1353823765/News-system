@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
+
 import "./SideMenu.css";
 import {
   UserOutlined,
@@ -15,13 +16,16 @@ import {
   FolderViewOutlined,
   ReadOutlined,
   SafetyCertificateOutlined,
+  ManOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import axios from "axios";
+import { connect } from "react-redux";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 function SideMenu(props) {
-  // console.log(props);
+  console.log(props);
+  const {isCollapsed}=props
   const [menulist, setmenulist] = useState([]);
   useEffect(() => {
     axios("/rights?_embed=children").then((res) => {
@@ -37,7 +41,7 @@ function SideMenu(props) {
     "/right-manage/role/list": <UserOutlined />,
     "/right-manage/right/list": <RedditOutlined />,
     "/news-manage/add": <ReadOutlined />,
-    "/news-manage/draft": <FileTextOutlined />,
+    "/news-manage/draft": <FileTextOutlined/>,
     "/news-manage/category": <FileSyncOutlined />,
     "/audit-manage/audit": <FolderViewOutlined />,
     "/audit-manage/list": <VideoCameraOutlined />,
@@ -52,10 +56,10 @@ function SideMenu(props) {
   const verdictpagepermisson = (item) => {
     return item.pagepermisson && rights.includes(item.key);
   };
-  const [collapsed, setCollapsed] = useState(false);
+  // const [collapsed, setCollapsed] = useState(false);
   //左侧边栏高亮显示用路径代表唯一
   const SelectedKeys = props.location.pathname;
-  //
+  
   const OpenKeys = `/${SelectedKeys.split("/")[1]}`;
   const renderMenu = (menulist) => {
     
@@ -85,7 +89,7 @@ function SideMenu(props) {
   };
 
   return (
-    <Sider trigger={null} collapsible collapsed={collapsed}>
+    <Sider trigger={null} collapsible collapsed={isCollapsed}>
       <div className="left-div">
         <div className="logo">全球新闻发布系统</div>
         <div className="div-menu">
@@ -102,4 +106,13 @@ function SideMenu(props) {
     </Sider>
   );
 }
-export default withRouter(SideMenu);
+const mapStateToProps = (state, ownProps) => {
+    console.log(state)
+ 
+  return {
+    
+    isCollapsed:state.Collapsereducer.isCollapsed
+  }
+ }
+export default  connect(mapStateToProps)(withRouter(SideMenu))
+
