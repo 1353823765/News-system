@@ -107,7 +107,7 @@ function SideMenu(props) {
   );
 }
 const mapStateToProps = (state, ownProps) => {
-    console.log(state)
+    // console.log(state)
  
   return {
     
