@@ -16,7 +16,7 @@ import {
   FolderViewOutlined,
   ReadOutlined,
   SafetyCertificateOutlined,
-  ManOutlined,
+
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import axios from "axios";
@@ -24,7 +24,7 @@ import { connect } from "react-redux";
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 function SideMenu(props) {
-  console.log(props);
+  // console.log(props);
   const {isCollapsed}=props
   const [menulist, setmenulist] = useState([]);
   useEffect(() => {
